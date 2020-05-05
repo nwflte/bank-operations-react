@@ -1,0 +1,172 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'utils/axios';
+import clsx from 'clsx';
+import moment from 'moment';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
+import {
+  Card,
+  CardActions,
+  CardHeader,
+  CardContent,
+  Button,
+  Divider,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Tooltip,
+  TableSortLabel
+} from '@material-ui/core';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { StatusBullet } from 'components';
+
+const useStyles = makeStyles(theme => ({
+  root: {},
+  content: {
+    padding: 0
+  },
+  inner: {
+    minWidth: 800
+  },
+  statusContainer: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  status: {
+    marginRight: theme.spacing(1)
+  },
+  actions: {
+    justifyContent: 'flex-end'
+  }
+}));
+
+const statusColors = {
+  approved: 'success',
+  request: 'info',
+  refunded: 'danger'
+};
+
+function handleApprove(pledge) {
+  const request = axios.post('api/obligations/pledges/approve', {
+    externalId: pledge.externalId
+  });
+}
+
+const LatestPledges = props => {
+  const { className, ...rest } = props;
+
+  const classes = useStyles();
+
+  //const [orders] = useState(mockData);
+  const pledges = props.pledges;
+
+  return (
+    <Card
+      {...rest}
+      className={clsx(classes.root, className)}
+    >
+      <CardHeader
+        action={
+          <Button
+            color="primary"
+            component={Link}
+            //href="add"
+            size="small"
+            to="add"
+            variant="outlined"
+          >
+            New pledge
+          </Button>
+        }
+        title="Latest Pledges"
+      />
+      <Divider />
+      <CardContent className={classes.content}>
+        <PerfectScrollbar>
+          <div className={classes.inner}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Pledge Ref</TableCell>
+                  <TableCell>Value</TableCell>
+                  <TableCell sortDirection="desc">
+                    <Tooltip
+                      enterDelay={300}
+                      title="Sort"
+                    >
+                      <TableSortLabel
+                        active
+                        direction="desc"
+                      >
+                        Date
+                      </TableSortLabel>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {pledges.map(pledge => (
+                  <TableRow
+                    hover
+                    key={pledge.linearId}
+                  >
+                    <TableCell>{pledge.externalId}</TableCell>
+                    <TableCell>{pledge.amount}</TableCell>
+                    <TableCell>
+                      {moment(pledge.requesterDate).format('DD/MM/YYYY')}
+                    </TableCell>
+                    <TableCell>
+                      <div className={classes.statusContainer}>
+                        <StatusBullet
+                          className={classes.status}
+                          color={statusColors[pledge.status.toLowerCase()]}
+                          size="sm"
+                        />
+                        {pledge.status}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {pledge.status === 'REQUEST' && (
+                        <Button
+                          color="secondary"
+                          //href="/pledge/add"
+                          onClick={() => handleApprove(pledge)}
+                          size="small"
+                          variant="contained"
+                        >
+                          APPROVE
+                        </Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </PerfectScrollbar>
+      </CardContent>
+      <Divider />
+      <CardActions className={classes.actions}>
+        <Button
+          color="primary"
+          size="small"
+          variant="text"
+        >
+          View all <ArrowRightIcon />
+        </Button>
+      </CardActions>
+    </Card>
+  );
+};
+
+LatestPledges.propTypes = {
+  className: PropTypes.string
+};
+
+export default LatestPledges;
