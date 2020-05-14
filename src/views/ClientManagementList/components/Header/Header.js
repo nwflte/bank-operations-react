@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, Typography, Button } from '@material-ui/core';
 
+import { ClientAdd } from '..';
+
 const useStyles = makeStyles(() => ({
   root: {}
 }));
@@ -12,6 +14,15 @@ const Header = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
+
+  const [openAdd, setOpenAdd] = React.useState(false);
+
+  const handleAddOpen = () => {
+    setOpenAdd(true);
+  };
+  const handleAddClose = () => {
+    setOpenAdd(false);
+  };
 
   return (
     <div
@@ -42,12 +53,17 @@ const Header = props => {
         <Grid item>
           <Button
             color="primary"
+            onClick={handleAddOpen}
             variant="contained"
           >
             Add client
           </Button>
         </Grid>
       </Grid>
+      <ClientAdd
+        onClose={handleAddClose}
+        open={openAdd}
+      />
     </div>
   );
 };

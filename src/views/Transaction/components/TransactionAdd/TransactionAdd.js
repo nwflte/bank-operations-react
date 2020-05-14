@@ -54,18 +54,14 @@ const getComptes = async () => {
   return data;
 };
 
-const VirementAdd = props => {
-  const { open, ribEmetteur, onClose, className, ...rest } = props;
+const TransactionAdd = props => {
+  const { open, onClose, className, ...rest } = props;
 
   const classes = useStyles();
   const { history } = useRouter();
   const { register, handleSubmit, errors, control, setValue } = useForm();
 
   const queryInfo = useQuery('comptes', getComptes);
-
-  React.useEffect(() => {
-    register({ name: 'ribBeneficiaire' });
-  });
 
   if (!open) {
     return null;
@@ -77,7 +73,7 @@ const VirementAdd = props => {
     try {
       const request = await axios.post('api/virements', {
         ...data,
-        date: new Date()
+        dateExecution: new Date()
       });
       console.log('request', request);
       toast.success('You have successfully added a new transfer!');
@@ -132,17 +128,35 @@ const VirementAdd = props => {
                 xs={12}
               >
                 <Controller
-                  as={TextField}
+                  as={
+                    <Autocomplete
+                      autoSelect
+                      freeSolo
+                      getOptionLabel={option =>
+                        option.rib ? option.rib : option
+                      }
+                      options={queryInfo.data || []}
+                      renderInput={params => (
+                        <TextField
+                          {...params}
+                          fullWidth
+                          inputProps={{
+                            ...params.inputProps
+                            //autoComplete: 'disabled' // disable autocomplete and autofill
+                          }}
+                          label="RIB Emetteur"
+                          variant="outlined"
+                        />
+                      )}
+                    />
+                  }
                   control={control}
-                  defaultValue={ribEmetteur}
-                  disabled
-                  fullWidth
-                  label="RIB Emetteur"
+                  defaultValue={''}
                   name="ribEmetteur"
-                  variant="outlined"
+                  onChange={([event, data]) => (data ? data : data)}
+                  onInputChange={(e, data) => data}
                 />
               </Grid>
-
               <Grid
                 item
                 md={6}
@@ -281,18 +295,18 @@ const VirementAdd = props => {
   );
 };
 
-VirementAdd.displayName = 'ClientEdit';
+TransactionAdd.displayName = 'ClientEdit';
 
-VirementAdd.propTypes = {
+TransactionAdd.propTypes = {
   className: PropTypes.string,
   client: PropTypes.any,
   onClose: PropTypes.func,
   open: PropTypes.bool
 };
 
-VirementAdd.defaultProps = {
+TransactionAdd.defaultProps = {
   open: false,
   onClose: () => {}
 };
 
-export default VirementAdd;
+export default TransactionAdd;

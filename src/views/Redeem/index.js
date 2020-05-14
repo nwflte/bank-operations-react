@@ -1,2 +1,2 @@
 export { default } from './Redeem';
-export { default as AddRedeem } from './components/AddRedeem';
+export { default as RedeemAdd } from './components/RedeemAdd';

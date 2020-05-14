@@ -6,11 +6,6 @@ import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
 import {
   Dashboard as DashboardView,
-  ProductList as ProductListView,
-  UserList as UserListView,
-  Typography as TypographyView,
-  Icons as IconsView,
-  Account as AccountView,
   Settings as SettingsView,
   NotFound as NotFoundView
 } from './views';
@@ -24,10 +19,6 @@ const bankRoutes = [
     path: '/management/transactions',
     exact: true,
     component: lazy(() => import('views/Transaction'))
-  },
-  {
-    path: '/management/transactions/add',
-    component: lazy(() => import('views/Transaction/components/AddTransaction'))
   },
   {
     path: '/management/clients',
@@ -48,16 +39,8 @@ const bankRoutes = [
     component: lazy(() => import('views/Pledge'))
   },
   {
-    path: '/pledges/add',
-    component: lazy(() => import('views/Pledge/components/AddPledge'))
-  },
-  {
     path: '/redeems/general',
     component: lazy(() => import('views/Redeem'))
-  },
-  {
-    path: '/redeems/add',
-    component: lazy(() => import('views/Redeem/components/AddRedeem'))
   }
 ];
 
@@ -82,36 +65,6 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/not-found"
-      />
-      <RouteWithLayout
-        component={UserListView}
-        exact
-        layout={MainLayout}
-        path="/users"
-      />
-      <RouteWithLayout
-        component={ProductListView}
-        exact
-        layout={MainLayout}
-        path="/products"
-      />
-      <RouteWithLayout
-        component={TypographyView}
-        exact
-        layout={MainLayout}
-        path="/typography"
-      />
-      <RouteWithLayout
-        component={IconsView}
-        exact
-        layout={MainLayout}
-        path="/icons"
-      />
-      <RouteWithLayout
-        component={AccountView}
-        exact
-        layout={MainLayout}
-        path="/account"
       />
       <RouteWithLayout
         component={SettingsView}

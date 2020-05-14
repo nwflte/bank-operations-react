@@ -20,6 +20,8 @@ import {
 } from '@material-ui/core';
 
 import axios from 'utils/axios';
+import { useQuery } from 'react-query';
+
 import { Label, GenericMoreButton } from 'components';
 
 const useStyles = makeStyles(() => ({
@@ -36,25 +38,13 @@ const Virements = props => {
   const { clientId, className, ...rest } = props;
 
   const classes = useStyles();
-  const [virements, setVirements] = useState([]);
 
-  useEffect(() => {
-    let mounted = true;
+  const getVirements = async () => {
+    const { data } = await axios.get(`/api/clients/${clientId}/virements`);
+    return data;
+  };
 
-    const fetchVirements = () => {
-      axios.get(`/api/utilisateurs/${clientId}/virements`).then(response => {
-        if (mounted) {
-          setVirements(response.data);
-        }
-      });
-    };
-
-    fetchVirements();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  const queryInfo = useQuery('virements', getVirements);
 
   const statusColors = {
     pending: colors.orange[600],
@@ -90,37 +80,38 @@ const Virements = props => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {virements.map(virement => (
-                    <TableRow key={virement.id}>
-                      <TableCell>#{virement.id}</TableCell>
-                      <TableCell>{virement.ribEmetteur}</TableCell>
-                      <TableCell>{virement.ribBeneficiaire}</TableCell>
-                      <TableCell>{virement.amount}</TableCell>
-                      <TableCell>{virement.motif}</TableCell>
-                      <TableCell>
-                        {moment(virement.date).format('DD/MM/YYYY | HH:MM')}
-                      </TableCell>
-                      <TableCell>
-                        <Label
-                          color={statusColors[virement.status]}
-                          variant="outlined"
-                        >
-                          {virement.status}
-                        </Label>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Button
-                          color="primary"
-                          component={RouterLink}
-                          size="small"
-                          to={'/management/virements/1'}
-                          variant="outlined"
-                        >
-                          View
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {queryInfo.data &&
+                    queryInfo.data.map(virement => (
+                      <TableRow key={virement.id}>
+                        <TableCell>#{virement.id}</TableCell>
+                        <TableCell>{virement.ribEmetteur}</TableCell>
+                        <TableCell>{virement.ribBeneficiaire}</TableCell>
+                        <TableCell>{virement.amount}</TableCell>
+                        <TableCell>{virement.motif}</TableCell>
+                        <TableCell>
+                          {moment(virement.date).format('DD/MM/YYYY | HH:MM')}
+                        </TableCell>
+                        <TableCell>
+                          <Label
+                            color={statusColors[virement.status]}
+                            variant="outlined"
+                          >
+                            {virement.status}
+                          </Label>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Button
+                            color="primary"
+                            component={RouterLink}
+                            size="small"
+                            to={'/management/virements/1'}
+                            variant="outlined"
+                          >
+                            View
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </div>

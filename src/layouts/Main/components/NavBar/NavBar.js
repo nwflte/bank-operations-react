@@ -9,7 +9,7 @@ import { Hidden } from '@material-ui/core';
 import useRouter from 'utils/useRouter';
 import { Navigation } from 'components';
 import navigationConfig from './navigationConfig';
-import { useAuth } from 'authertication-context';
+import { useAuth } from 'authentication-context';
 
 const useStyles = makeStyles(theme => ({
   root: {

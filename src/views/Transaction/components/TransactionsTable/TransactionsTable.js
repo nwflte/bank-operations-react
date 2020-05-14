@@ -72,6 +72,8 @@ const TransactionsTable = props => {
                   <TableCell>Montant</TableCell>
                   <TableCell>Date</TableCell>
                   <TableCell>Motif</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Date of status update</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -88,6 +90,8 @@ const TransactionsTable = props => {
                       {moment(virement.date).format('DD/MM/YYYY')}
                     </TableCell>
                     <TableCell>{virement.motif}</TableCell>
+                    <TableCell>{virement.status}</TableCell>
+                    <TableCell>{virement.statusUpdate}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

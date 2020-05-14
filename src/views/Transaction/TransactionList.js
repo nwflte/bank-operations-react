@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { TransactionsToolbar, TransactionsTable } from './components';
+import {
+  TransactionsToolbar,
+  TransactionsTable,
+  TransactionAdd
+} from './components';
 import mockData from './data';
 
 import axios from 'utils/axios';
@@ -24,6 +28,15 @@ const getVirements = async () => {
 const TransactionList = () => {
   const classes = useStyles();
 
+  const [openAddTransaction, setOpenAddTransaction] = React.useState(false);
+
+  const handleAddTransactionOpen = () => {
+    setOpenAddTransaction(true);
+  };
+  const handleAddTransactionClose = () => {
+    setOpenAddTransaction(false);
+  };
+
   const [virements] = useState(mockData);
   const queryInfo = useQuery('virements', getVirements);
 
@@ -31,10 +44,16 @@ const TransactionList = () => {
   //const data = queryInfo.data ? queryInfo.data : virements;
   return (
     <div className={classes.root}>
-      <TransactionsToolbar />
+      <TransactionsToolbar
+        handleAddTransactionOpen={handleAddTransactionOpen}
+      />
       <div className={classes.content}>
         <TransactionsTable virements={queryInfo.data || virements} />
       </div>
+      <TransactionAdd
+        onClose={handleAddTransactionClose}
+        open={openAddTransaction}
+      />
     </div>
   );
 };

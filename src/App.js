@@ -3,6 +3,8 @@ import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import validate from 'validate.js';
 
 import { chartjs } from './helpers';
@@ -13,7 +15,7 @@ import validators from './common/validators';
 import Routes from './Routes';
 //import './mock';
 
-import { AuthProvider, useAuth } from 'authertication-context';
+import { AuthProvider, useAuth } from 'authentication-context';
 
 const browserHistory = createBrowserHistory();
 
@@ -34,6 +36,7 @@ export default class App extends Component {
           <Router history={browserHistory}>
             <Routes />
           </Router>
+          <ToastContainer position={toast.POSITION.BOTTOM_RIGHT}/>
         </AuthProvider>
       </ThemeProvider>
     );

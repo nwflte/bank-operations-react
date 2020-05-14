@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'utils/axios';
 import clsx from 'clsx';
 import moment from 'moment';
@@ -23,6 +22,7 @@ import {
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { StatusBullet } from 'components';
+import { useAuth } from 'authentication-context';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -57,11 +57,13 @@ function handleApprove(pledge) {
 }
 
 const LatestPledges = props => {
-  const { className, ...rest } = props;
+  const { className, handleAddPledgeOpen, ...rest } = props;
 
   const classes = useStyles();
+  const [userInfo] = useAuth();
 
-  //const [orders] = useState(mockData);
+  const isBankRole = userInfo.roles.includes('ROLE_USER');
+
   const pledges = props.pledges;
 
   return (
@@ -73,10 +75,8 @@ const LatestPledges = props => {
         action={
           <Button
             color="primary"
-            component={Link}
-            //href="add"
+            onClick={handleAddPledgeOpen}
             size="small"
-            to="add"
             variant="outlined"
           >
             New pledge
@@ -132,7 +132,29 @@ const LatestPledges = props => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      {pledge.status === 'REQUEST' && (
+                      {pledge.status === 'REQUEST' && !isBankRole && (
+                        <div>
+                          <Button
+                            color="secondary"
+                            //href="/pledge/add"
+                            onClick={() => handleApprove(pledge)}
+                            size="small"
+                            variant="contained"
+                          >
+                            APPROVE
+                          </Button>
+                          <Button
+                            color="secondary"
+                            //href="/pledge/add"
+                            onClick={() => handleApprove(pledge)}
+                            size="small"
+                            variant="contained"
+                          >
+                            REJECT
+                          </Button>
+                        </div>
+                      )}
+                      {pledge.status === 'REQUEST' && isBankRole && (
                         <Button
                           color="secondary"
                           //href="/pledge/add"
@@ -140,7 +162,7 @@ const LatestPledges = props => {
                           size="small"
                           variant="contained"
                         >
-                          APPROVE
+                          CANCEL
                         </Button>
                       )}
                     </TableCell>

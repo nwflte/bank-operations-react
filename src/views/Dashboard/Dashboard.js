@@ -13,7 +13,7 @@ import {
   LatestOrders
 } from './components';
 
-import { useAuth } from 'authertication-context';
+import { useAuth } from 'authentication-context';
 
 const useStyles = makeStyles(theme => ({
   root: {

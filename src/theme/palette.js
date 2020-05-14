@@ -11,14 +11,16 @@ export default {
     dark: colors.indigo[900],
     //main: colors.indigo[500],
     //main: colors.purple[900],
-    main: 'rgb(41,30,56)',
+    //main: 'rgb(41,30,56)',
+    main: '#2c003e',
     light: colors.indigo[100]
   },
   secondary: {
     contrastText: white,
     dark: colors.blue[900],
     //main: colors.blue['A400'],
-    main: colors.purple[700],
+    //main: colors.purple[700],
+    main: '#512B58',
     light: colors.blue['A400']
   },
   success: {

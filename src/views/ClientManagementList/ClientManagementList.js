@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import axios from 'utils/axios';
+import { useQuery } from 'react-query';
 import { Page, SearchBar } from 'components';
 import { Header, Results } from './components';
 
@@ -14,28 +15,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const getClients = async () => {
+  const { data } = await axios.get('api/clients');
+  return data;
+};
+
 const ClientManagementList = () => {
   const classes = useStyles();
 
-  const [clients, setClients] = useState([]);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchClients = () => {
-      axios.get('api/utilisateurs').then(response => {
-        if (mounted) {
-          setClients(response.data);
-        }
-      });
-    };
-
-    fetchClients();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  const queryInfo = useQuery('clients', getClients);
 
   const handleFilter = () => {};
   const handleSearch = () => {};
@@ -50,10 +38,12 @@ const ClientManagementList = () => {
         onFilter={handleFilter}
         onSearch={handleSearch}
       />
-      {clients && <Results
-        className={classes.results}
-        clients={clients}
-                  />}
+      {queryInfo.data && (
+        <Results
+          className={classes.results}
+          clients={queryInfo.data}
+        />
+      )}
     </Page>
   );
 };

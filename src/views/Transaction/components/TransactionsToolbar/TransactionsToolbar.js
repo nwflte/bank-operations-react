@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TransactionsToolbar = props => {
-  const { className, ...rest } = props;
+  const { className, handleAddTransactionOpen, ...rest } = props;
 
   const classes = useStyles();
 
@@ -40,11 +40,9 @@ const TransactionsToolbar = props => {
     >
       <div className={classes.row}>
         <span className={classes.spacer} />
-        {/* <Button className={classes.importButton}>Import</Button>
-        <Button className={classes.exportButton}>Export</Button> */}
         <Button
           color="primary"
-          href="transactions/add"
+          onClick={handleAddTransactionOpen}
           variant="contained"
         >
           Add transaction

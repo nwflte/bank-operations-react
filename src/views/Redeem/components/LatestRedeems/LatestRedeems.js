@@ -25,6 +25,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import mockData from './data';
 import { StatusBullet } from 'components';
+import { useAuth } from 'authentication-context';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -59,11 +60,13 @@ function handleApprove(pledge) {
 }
 
 const LatestRedeems = props => {
-  const { className, ...rest } = props;
+  const { className, handleAddRedeemOpen, ...rest } = props;
 
   const classes = useStyles();
+  const [userInfo] = useAuth();
 
-  //const [orders] = useState(mockData);
+  const isBankRole = userInfo.roles.includes('ROLE_USER');
+
   const redeems = props.redeems.data ? props.redeems.data : mockData;
 
   return (
@@ -75,9 +78,8 @@ const LatestRedeems = props => {
         action={
           <Button
             color="primary"
-            component={Link}
+            onClick={handleAddRedeemOpen}
             size="small"
-            to="add"
             variant="outlined"
           >
             New redeem
@@ -133,7 +135,29 @@ const LatestRedeems = props => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      {redeem.status === 'REQUEST' && (
+                      {redeem.status === 'REQUEST' && !isBankRole && (
+                        <div>
+                          <Button
+                            color="secondary"
+                            //href="/pledge/add"
+                            onClick={() => handleApprove(redeem)}
+                            size="small"
+                            variant="contained"
+                          >
+                            APPROVE
+                          </Button>
+                          <Button
+                            color="secondary"
+                            //href="/pledge/add"
+                            onClick={() => handleApprove(redeem)}
+                            size="small"
+                            variant="contained"
+                          >
+                            REJECT
+                          </Button>
+                        </div>
+                      )}
+                      {redeem.status === 'REQUEST' && isBankRole && (
                         <Button
                           color="secondary"
                           //href="/pledge/add"
@@ -141,7 +165,7 @@ const LatestRedeems = props => {
                           size="small"
                           variant="contained"
                         >
-                          APPROVE
+                          CANCEL
                         </Button>
                       )}
                     </TableCell>

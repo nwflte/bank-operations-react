@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 
 import axios from 'utils/axios';
+import { useQuery } from 'react-query';
 import { ClientInfo, CompteInfo, OtherActions } from './components';
 
 const useStyles = makeStyles(() => ({
@@ -15,27 +16,15 @@ const Summary = props => {
   const { clientId, className, ...rest } = props;
 
   const classes = useStyles();
-  const [client, setClient] = useState();
 
-  useEffect(() => {
-    let mounted = true;
+  const fetchClient = async () => {
+    const { data } = await axios.get(`/api/clients/${clientId}`);
+    return data;
+  };
 
-    const fetchClient = () => {
-      axios.get(`/api/utilisateurs/${clientId}`).then(response => {
-        if (mounted) {
-          setClient(response.data);
-        }
-      });
-    };
+  const queryInfo = useQuery('client', fetchClient);
 
-    fetchClient();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  if (!client) {
+  if (!queryInfo.data) {
     return null;
   }
 
@@ -53,7 +42,7 @@ const Summary = props => {
         xl={3}
         xs={12}
       >
-        <ClientInfo client={client} />
+        <ClientInfo client={queryInfo.data} />
       </Grid>
       <Grid
         item
@@ -62,7 +51,7 @@ const Summary = props => {
         xl={3}
         xs={12}
       >
-        <CompteInfo client={client} />
+        <CompteInfo client={queryInfo.data} />
       </Grid>
       <Grid
         item

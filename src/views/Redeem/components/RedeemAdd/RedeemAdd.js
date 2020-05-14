@@ -19,7 +19,6 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import useRouter from 'utils/useRouter';
-import { useQuery } from 'react-query';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,19 +48,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const getComptes = async () => {
-  const { data } = await axios.get('api/comptes');
-  return data;
-};
-
-const VirementAdd = props => {
-  const { open, ribEmetteur, onClose, className, ...rest } = props;
+const PledgeAdd = props => {
+  const { open, onClose, className, ...rest } = props;
 
   const classes = useStyles();
   const { history } = useRouter();
   const { register, handleSubmit, errors, control, setValue } = useForm();
-
-  const queryInfo = useQuery('comptes', getComptes);
 
   React.useEffect(() => {
     register({ name: 'ribBeneficiaire' });
@@ -73,20 +65,21 @@ const VirementAdd = props => {
 
   const onSubmit = async data => {
     console.log(data);
-
     try {
-      const request = await axios.post('api/virements', {
-        ...data,
-        date: new Date()
+      const request = await axios.post('api/obligations/redeems', {
+        ...data
       });
       console.log('request', request);
-      toast.success('You have successfully added a new transfer!');
-      onClose();
+      toast.success('You have successfully added a new redeem request!');
+      history.push('pledges');
     } catch (err) {
       if (err.response) {
         // client received an error response (5xx, 4xx)
         console.log('err.response', err.response);
-        toast.error('Error: ' + err.response.data);
+        toast.error(
+          'Error: Redeem request wasn\'t added successfully. Code: ' +
+            err.response.status
+        );
       } else if (err.request) {
         // client never received a response, or request never left
         console.log('err.request', err.request);
@@ -98,6 +91,13 @@ const VirementAdd = props => {
       }
     }
   };
+
+  const currencies = [
+    {
+      value: 'MAD',
+      label: 'Moroccan Dirham'
+    }
+  ];
 
   return (
     <Modal
@@ -119,94 +119,13 @@ const VirementAdd = props => {
               gutterBottom
               variant="h3"
             >
-              Nouveau Virement
+              Nouveau Redeem
             </Typography>
             <Grid
               className={classes.container}
               container
               spacing={3}
             >
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
-                <Controller
-                  as={TextField}
-                  control={control}
-                  defaultValue={ribEmetteur}
-                  disabled
-                  fullWidth
-                  label="RIB Emetteur"
-                  name="ribEmetteur"
-                  variant="outlined"
-                />
-              </Grid>
-
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
-                <Controller
-                  as={
-                    <Autocomplete
-                      autoSelect
-                      freeSolo
-                      getOptionLabel={option =>
-                        option.rib ? option.rib : option
-                      }
-                      options={queryInfo.data || []}
-                      renderInput={params => (
-                        <TextField
-                          {...params}
-                          fullWidth
-                          inputProps={{
-                            ...params.inputProps
-                          }}
-                          label="RIB Beneficiaire"
-                          variant="outlined"
-                        />
-                      )}
-                    />
-                  }
-                  control={control}
-                  defaultValue={''}
-                  name="ribBeneficiaire"
-                  onChange={([event, data]) => (data ? data : data)}
-                  onInputChange={(e, data) => data}
-                />
-              </Grid>
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
-                <Controller
-                  as={TextField}
-                  control={control}
-                  defaultValue=""
-                  fullWidth
-                  label="Nom du Beneficiaire"
-                  name="nom"
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
-                <Controller
-                  as={TextField}
-                  control={control}
-                  defaultValue=""
-                  fullWidth
-                  label="Motif du virement"
-                  name="motif"
-                  variant="outlined"
-                />
-              </Grid>
               <Grid
                 item
                 md={6}
@@ -231,12 +150,23 @@ const VirementAdd = props => {
                 <Controller
                   as={TextField}
                   control={control}
-                  defaultValue="MAD"
+                  defaultValue="mad"
                   fullWidth
-                  label="Currency"
+                  margin="dense"
                   name="currency"
-                  variant="outlined"
-                />
+                  required
+                  select
+                  SelectProps={{ native: true }}
+                  variant="outlined">
+                  {currencies.map(option => (
+                    <option
+                      key={option.value}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </Controller>
               </Grid>
 
               <Grid item />
@@ -247,7 +177,7 @@ const VirementAdd = props => {
               >
                 <Typography variant="h5">Priorité</Typography>
                 <Typography variant="body2">
-                  Activé pour donner ce virement la priorité sur le Blockchain
+                  Activé pour donner ce redeem la priorité
                 </Typography>
                 <Controller
                   as={Switch}
@@ -281,18 +211,18 @@ const VirementAdd = props => {
   );
 };
 
-VirementAdd.displayName = 'ClientEdit';
+PledgeAdd.displayName = 'ClientEdit';
 
-VirementAdd.propTypes = {
+PledgeAdd.propTypes = {
   className: PropTypes.string,
   client: PropTypes.any,
   onClose: PropTypes.func,
   open: PropTypes.bool
 };
 
-VirementAdd.defaultProps = {
+PledgeAdd.defaultProps = {
   open: false,
   onClose: () => {}
 };
 
-export default VirementAdd;
+export default PledgeAdd;

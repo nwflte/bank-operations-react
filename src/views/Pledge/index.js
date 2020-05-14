@@ -1,2 +1,2 @@
 export { default } from './Pledge';
-export { default as AddPledge } from './components/AddPledge';
+export { default as PledgeAdd } from './components/PledgeAdd';

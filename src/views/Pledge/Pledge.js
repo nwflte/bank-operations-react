@@ -8,7 +8,8 @@ import {
   TotalApproved,
   AcceptedPercentage,
   TotalProfit,
-  LatestPledges
+  LatestPledges,
+  PledgeAdd
 } from './components';
 
 import { useQuery } from 'react-query';
@@ -28,6 +29,15 @@ const getPledges = async () => {
 const Pledge = () => {
   const classes = useStyles();
   const queryInfo = useQuery('pledge', getPledges);
+
+  const [openAddPledge, setOpenAddPledge] = React.useState(false);
+
+  const handleAddPledgeOpen = () => {
+    setOpenAddPledge(true);
+  };
+  const handleAddPledgeClose = () => {
+    setOpenAddPledge(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -79,9 +89,16 @@ const Pledge = () => {
           xl={9}
           xs={12}
         >
-          <LatestPledges pledges={queryInfo.data || mockData} />
+          <LatestPledges
+            handleAddPledgeOpen={handleAddPledgeOpen}
+            pledges={queryInfo.data || mockData}
+          />
         </Grid>
       </Grid>
+      <PledgeAdd
+        onClose={handleAddPledgeClose}
+        open={openAddPledge}
+      />
     </div>
   );
 };

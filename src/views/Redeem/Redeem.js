@@ -7,7 +7,8 @@ import {
   TotalUsers,
   TasksProgress,
   TotalProfit,
-  LatestRedeems
+  LatestRedeems,
+  RedeemAdd
 } from './components';
 
 import axios from 'utils/axios';
@@ -27,6 +28,15 @@ const getRedeems = async () => {
 const Redeem = () => {
   const classes = useStyles();
   const queryInfo = useQuery('redeems', getRedeems);
+
+  const [openAddRedeem, setOpenAddRedeem] = React.useState(false);
+
+  const handleAddRedeemOpen = () => {
+    setOpenAddRedeem(true);
+  };
+  const handleAddRedeemClose = () => {
+    setOpenAddRedeem(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -78,9 +88,16 @@ const Redeem = () => {
           xl={9}
           xs={12}
         >
-          <LatestRedeems redeems={queryInfo} />
+          <LatestRedeems
+            handleAddRedeemOpen={handleAddRedeemOpen}
+            redeems={queryInfo}
+          />
         </Grid>
       </Grid>
+      <RedeemAdd
+        onClose={handleAddRedeemClose}
+        open={openAddRedeem}
+      />
     </div>
   );
 };

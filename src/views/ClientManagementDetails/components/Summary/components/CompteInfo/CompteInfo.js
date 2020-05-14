@@ -17,11 +17,11 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import ReceiptIcon from '@material-ui/icons/ReceiptOutlined';
 
 import { Label } from 'components';
-import { VirementAdd } from './components';
+import { VirementAdd, CompteAdd } from './components';
 import axios from 'utils/axios';
+import { useQuery } from 'react-query';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -45,39 +45,33 @@ const CompteInfo = props => {
 
   const classes = useStyles();
 
-  const [compte, setCompte] = React.useState({});
+  const [openAddVirement, setOpenAddVirement] = React.useState(false);
+  const [openAddCompte, setOpenAddCompte] = React.useState(false);
 
-  const [openAdd, setOpenAdd] = React.useState(false);
+  const getCompte = async () => {
+    const { data } = await axios.get(`/api/clients/${client.id}/compte`);
+    return data;
+  };
 
-  // TODO get account
-  React.useEffect(() => {
-    let mounted = true;
-
-    const fetchAccount = () => {
-      axios.get(`/api/utilisateurs/${client.id}/compte`).then(response => {
-        if (mounted) {
-          setCompte(response.data);
-        }
-      });
-    };
-
-    fetchAccount();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  const queryInfo = useQuery('compteInfo', getCompte);
 
   const handleEditOpen = () => {};
 
-  const handleAddOpen = () => {
-    setOpenAdd(true);
+  const handleAddVirementOpen = () => {
+    setOpenAddVirement(true);
   };
-  const handleAddClose = () => {
-    setOpenAdd(false);
+  const handleAddVirementClose = () => {
+    setOpenAddVirement(false);
   };
 
-  return (
+  const handleAddAccountOpen = () => {
+    setOpenAddCompte(true);
+  };
+  const handleAddAccountClose = () => {
+    setOpenAddCompte(false);
+  };
+
+  return queryInfo.data ? (
     <Card
       {...rest}
       className={clsx(classes.root, className)}
@@ -89,11 +83,11 @@ const CompteInfo = props => {
           <TableBody>
             <TableRow>
               <TableCell>RIB</TableCell>
-              <TableCell>{compte.rib}</TableCell>
+              <TableCell>{queryInfo.data.rib}</TableCell>
             </TableRow>
             <TableRow selected>
               <TableCell>Solde</TableCell>
-              <TableCell>{compte.solde}</TableCell>
+              <TableCell>{queryInfo.data.solde}</TableCell>
             </TableRow>
 
             <TableRow>
@@ -119,15 +113,32 @@ const CompteInfo = props => {
           <EditIcon className={classes.buttonIcon} />
           Edit
         </Button>
-        <Button onClick={handleAddOpen}>
+        <Button onClick={handleAddVirementOpen}>
           <AttachMoneyIcon className={classes.buttonIcon} />
           Nouveau Virement
         </Button>
       </CardActions>
       <VirementAdd
-        onClose={handleAddClose}
-        open={openAdd}
-        ribEmetteur={compte.rib}
+        onClose={handleAddVirementClose}
+        open={openAddVirement}
+        ribEmetteur={queryInfo.data.rib}
+      />
+    </Card>
+  ) : (
+    <Card
+      {...rest}
+      className={clsx(classes.root, className)}
+    >
+      <CardActions className={classes.actions}>
+        <Button onClick={handleAddAccountOpen}>
+          <EditIcon className={classes.buttonIcon} />
+          Créer un compte pour ce client
+        </Button>
+      </CardActions>
+      <CompteAdd
+        clientId={client.id}
+        onClose={handleAddAccountClose}
+        open={openAddCompte}
       />
     </Card>
   );
