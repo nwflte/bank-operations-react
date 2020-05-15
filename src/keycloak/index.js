@@ -1,7 +1,8 @@
 import Keycloak from 'keycloak-js';
+import {REACT_APP_KEYCLOAK_URL} from 'env.js';
 
 const initOptions = {
-  url: 'http://localhost:8080/auth',
+  url: REACT_APP_KEYCLOAK_URL,
   realm: 'springservice',
   clientId: 'bank-service',
   onLoad: 'login-required',
