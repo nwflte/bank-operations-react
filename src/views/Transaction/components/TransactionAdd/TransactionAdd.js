@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import axios from 'utils/axios';
@@ -18,7 +18,6 @@ import {
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import useRouter from 'utils/useRouter';
 import { useQuery } from 'react-query';
 
 const useStyles = makeStyles(theme => ({
@@ -58,7 +57,6 @@ const TransactionAdd = props => {
   const { open, onClose, className, ...rest } = props;
 
   const classes = useStyles();
-  const { history } = useRouter();
   const { register, handleSubmit, errors, control, setValue } = useForm();
 
   const queryInfo = useQuery('comptes', getComptes);
@@ -68,28 +66,22 @@ const TransactionAdd = props => {
   }
 
   const onSubmit = async data => {
-    console.log(data);
-
     try {
       const request = await axios.post('api/virements', {
         ...data,
         dateExecution: new Date()
       });
-      console.log('request', request);
       toast.success('You have successfully added a new transfer!');
       onClose();
     } catch (err) {
       if (err.response) {
         // client received an error response (5xx, 4xx)
-        console.log('err.response', err.response);
         toast.error('Error: ' + err.response.data);
       } else if (err.request) {
         // client never received a response, or request never left
-        console.log('err.request', err.request);
         toast.error('Error: No response. Please try again.');
       } else {
         // anything else
-        console.log('err', err);
         toast.error('Unknown Error occured, see the logs');
       }
     }
@@ -295,7 +287,7 @@ const TransactionAdd = props => {
   );
 };
 
-TransactionAdd.displayName = 'ClientEdit';
+TransactionAdd.displayName = 'TransactionAdd';
 
 TransactionAdd.propTypes = {
   className: PropTypes.string,

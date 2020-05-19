@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import axios from 'utils/axios';
@@ -15,7 +15,6 @@ import {
   Button,
   colors
 } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import useRouter from 'utils/useRouter';
@@ -64,29 +63,24 @@ const PledgeAdd = props => {
   }
 
   const onSubmit = async data => {
-    console.log(data);
     try {
       const request = await axios.post('api/obligations/redeems', {
         ...data
       });
-      console.log('request', request);
       toast.success('You have successfully added a new redeem request!');
       history.push('pledges');
     } catch (err) {
       if (err.response) {
         // client received an error response (5xx, 4xx)
-        console.log('err.response', err.response);
         toast.error(
           'Error: Redeem request wasn\'t added successfully. Code: ' +
             err.response.status
         );
       } else if (err.request) {
         // client never received a response, or request never left
-        console.log('err.request', err.request);
         toast.error('Error: No response. Please try again.');
       } else {
         // anything else
-        console.log('err', err);
         toast.error('Unknown Error occured, see the logs');
       }
     }
@@ -211,7 +205,7 @@ const PledgeAdd = props => {
   );
 };
 
-PledgeAdd.displayName = 'ClientEdit';
+PledgeAdd.displayName = 'RedeemAdd';
 
 PledgeAdd.propTypes = {
   className: PropTypes.string,

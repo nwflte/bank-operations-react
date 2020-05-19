@@ -15,7 +15,7 @@ import validators from './common/validators';
 import Routes from './Routes';
 //import './mock';
 
-import { AuthProvider, useAuth } from 'authentication-context';
+import { AuthProvider } from 'authentication-context';
 
 const browserHistory = createBrowserHistory();
 
@@ -36,7 +36,7 @@ export default class App extends Component {
           <Router history={browserHistory}>
             <Routes />
           </Router>
-          <ToastContainer position={toast.POSITION.BOTTOM_RIGHT}/>
+          <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
         </AuthProvider>
       </ThemeProvider>
     );

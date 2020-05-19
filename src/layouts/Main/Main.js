@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery, LinearProgress } from '@material-ui/core';
 
-import { Sidebar, Topbar, Footer, NavBar } from './components';
+import { Topbar, Footer, NavBar } from './components';
 
 const useStyles2 = makeStyles(() => ({
   root: {

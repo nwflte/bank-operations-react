@@ -4,17 +4,9 @@ import { Switch, Redirect } from 'react-router-dom';
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
-import {
-  Dashboard as DashboardView,
-  Settings as SettingsView,
-  NotFound as NotFoundView
-} from './views';
+import { Settings as SettingsView, NotFound as NotFoundView } from './views';
 
 const bankRoutes = [
-  {
-    path: '/dashboard',
-    component: DashboardView
-  },
   {
     path: '/management/transactions',
     exact: true,
@@ -58,7 +50,7 @@ const Routes = () => {
       <Redirect
         exact
         from="/"
-        to="/dashboard"
+        to="/management/clients"
       />
       <RouteWithLayout
         component={NotFoundView}

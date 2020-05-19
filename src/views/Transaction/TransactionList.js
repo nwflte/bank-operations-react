@@ -40,8 +40,6 @@ const TransactionList = () => {
   const [virements] = useState(mockData);
   const queryInfo = useQuery('virements', getVirements);
 
-  console.log('data', queryInfo);
-  //const data = queryInfo.data ? queryInfo.data : virements;
   return (
     <div className={classes.root}>
       <TransactionsToolbar

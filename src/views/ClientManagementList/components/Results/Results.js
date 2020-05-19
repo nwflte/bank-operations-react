@@ -23,7 +23,6 @@ import {
   Typography
 } from '@material-ui/core';
 
-import getInitials from 'utils/getInitials';
 import { GenericMoreButton, TableEditBar } from 'components';
 
 const useStyles = makeStyles(theme => ({

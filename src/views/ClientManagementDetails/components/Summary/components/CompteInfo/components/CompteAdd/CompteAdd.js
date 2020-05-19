@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import axios from 'utils/axios';
@@ -11,7 +11,6 @@ import {
   Grid,
   Typography,
   TextField,
-  Switch,
   Button,
   colors
 } from '@material-ui/core';
@@ -57,7 +56,6 @@ const CompteAdd = props => {
   }
 
   const onSubmit = data => {
-    console.log(data);
     addCompte(data);
     onClose();
   };
@@ -150,11 +148,12 @@ const CompteAdd = props => {
   );
 };
 
-CompteAdd.displayName = 'ClientEdit';
+CompteAdd.displayName = 'CompteAdd';
 
 CompteAdd.propTypes = {
   className: PropTypes.string,
   client: PropTypes.any,
+  clientId: PropTypes.number.isRequired,
   onClose: PropTypes.func,
   open: PropTypes.bool
 };

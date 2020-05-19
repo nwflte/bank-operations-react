@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Typography, Link } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,14 +20,8 @@ const Footer = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <Typography variant="body1">
-        &copy;{' '}
-
-        . 2019
-      </Typography>
-      <Typography variant="caption">
-        
-      </Typography>
+      <Typography variant="body1">&copy; . 2019</Typography>
+      <Typography variant="caption" />
     </div>
   );
 };
