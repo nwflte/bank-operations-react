@@ -56,13 +56,25 @@ function handleApprove(pledge) {
   });
 }
 
+function handleReject(pledge) {
+  const request = axios.post('api/obligations/pledges/deny', {
+    externalId: pledge.externalId
+  });
+}
+
+function handleCancel(pledge) {
+  const request = axios.post('api/obligations/pledges/cancel', {
+    externalId: pledge.externalId
+  });
+}
+
 const LatestPledges = props => {
   const { className, handleAddPledgeOpen, ...rest } = props;
 
   const classes = useStyles();
   const [userInfo] = useAuth();
 
-  const isBankRole = userInfo.roles.includes('ROLE_USER');
+  const isBankRole = userInfo.roles.includes('ROLE_BANK');
 
   const pledges = props.pledges;
 
@@ -145,8 +157,7 @@ const LatestPledges = props => {
                           </Button>
                           <Button
                             color="secondary"
-                            //href="/pledge/add"
-                            onClick={() => handleApprove(pledge)}
+                            onClick={() => handleReject(pledge)}
                             size="small"
                             variant="contained"
                           >
@@ -157,8 +168,7 @@ const LatestPledges = props => {
                       {pledge.status === 'REQUEST' && isBankRole && (
                         <Button
                           color="secondary"
-                          //href="/pledge/add"
-                          onClick={() => handleApprove(pledge)}
+                          onClick={() => handleCancel(pledge)}
                           size="small"
                           variant="contained"
                         >

@@ -1,14 +1,11 @@
 import Keycloak from 'keycloak-js';
-import {REACT_APP_KEYCLOAK_URL} from 'env.js';
+import { REACT_APP_KEYCLOAK_URL } from 'env.js';
 
 const initOptions = {
   url: REACT_APP_KEYCLOAK_URL,
   realm: 'springservice',
   clientId: 'bank-service',
-  onLoad: 'login-required',
-/*   'enable-cors': true,
-  'bearer-only': true,
-  'ssl-required': 'external' */
+  onLoad: 'login-required'
 };
 
 const keycloak = Keycloak(initOptions);
@@ -31,7 +28,6 @@ const initKeycloak = onAuthenticatedCallback => {
       }
 
       //React Render
-      //ReactDOM.render(<App />, document.getElementById('root'));
       onAuthenticatedCallback();
 
       localStorage.setItem('react-token', keycloak.token);

@@ -230,7 +230,20 @@ const VirementAdd = props => {
                   variant="outlined"
                 />
               </Grid>
-
+              <Grid
+                item
+                md={6}
+                xs={12}
+              >
+                <Controller
+                  as={TextField}
+                  control={control}
+                  fullWidth
+                  name="dateExecution"
+                  type="date"
+                  variant="outlined"
+                />
+              </Grid>
               <Grid item />
               <Grid
                 item

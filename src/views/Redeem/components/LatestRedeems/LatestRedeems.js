@@ -58,13 +58,25 @@ function handleApprove(pledge) {
   });
 }
 
+function handleReject(pledge) {
+  const request = axios.post('api/obligations/redeems/deny', {
+    externalId: pledge.externalId
+  });
+}
+
+function handleCancel(pledge) {
+  const request = axios.post('api/obligations/redeems/cancel', {
+    externalId: pledge.externalId
+  });
+}
+
 const LatestRedeems = props => {
   const { className, handleAddRedeemOpen, ...rest } = props;
 
   const classes = useStyles();
   const [userInfo] = useAuth();
 
-  const isBankRole = userInfo.roles.includes('ROLE_USER');
+  const isBankRole = userInfo.roles.includes('ROLE_BANK');
 
   const redeems = props.redeems.data ? props.redeems.data : mockData;
 
@@ -138,7 +150,6 @@ const LatestRedeems = props => {
                         <div>
                           <Button
                             color="secondary"
-                            //href="/pledge/add"
                             onClick={() => handleApprove(redeem)}
                             size="small"
                             variant="contained"
@@ -147,8 +158,7 @@ const LatestRedeems = props => {
                           </Button>
                           <Button
                             color="secondary"
-                            //href="/pledge/add"
-                            onClick={() => handleApprove(redeem)}
+                            onClick={() => handleReject(redeem)}
                             size="small"
                             variant="contained"
                           >
@@ -159,8 +169,7 @@ const LatestRedeems = props => {
                       {redeem.status === 'REQUEST' && isBankRole && (
                         <Button
                           color="secondary"
-                          //href="/pledge/add"
-                          onClick={() => handleApprove(redeem)}
+                          onClick={() => handleCancel(redeem)}
                           size="small"
                           variant="contained"
                         >
