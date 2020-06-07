@@ -13,7 +13,6 @@ import {
 } from './components';
 
 import { useQuery } from 'react-query';
-import mockData from './data';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +51,7 @@ const Pledge = () => {
           xl={3}
           xs={12}
         >
-          <TotalRequested pledges={queryInfo.data || mockData} />
+          <TotalRequested pledges={queryInfo.data} />
         </Grid>
         <Grid
           item
@@ -61,7 +60,7 @@ const Pledge = () => {
           xl={3}
           xs={12}
         >
-          <TotalApproved pledges={queryInfo.data || mockData} />
+          <TotalApproved pledges={queryInfo.data} />
         </Grid>
         <Grid
           item
@@ -70,7 +69,7 @@ const Pledge = () => {
           xl={3}
           xs={12}
         >
-          <AcceptedPercentage pledges={queryInfo.data || mockData} />
+          <AcceptedPercentage pledges={queryInfo.data} />
         </Grid>
         <Grid
           item
@@ -91,7 +90,7 @@ const Pledge = () => {
         >
           <LatestPledges
             handleAddPledgeOpen={handleAddPledgeOpen}
-            pledges={queryInfo.data || mockData}
+            pledges={queryInfo.data}
           />
         </Grid>
       </Grid>

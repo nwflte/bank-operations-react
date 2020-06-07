@@ -4,7 +4,7 @@ import { Switch, Redirect } from 'react-router-dom';
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
-import { Settings as SettingsView, NotFound as NotFoundView } from './views';
+import { NotFound as NotFoundView } from './views';
 
 const bankRoutes = [
   {
@@ -33,6 +33,10 @@ const bankRoutes = [
   {
     path: '/redeems/general',
     component: lazy(() => import('views/Redeem'))
+  },
+  {
+    path: '/settings/:tab',
+    component: lazy(() => import('views/Settings'))
   }
 ];
 
@@ -57,12 +61,6 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/not-found"
-      />
-      <RouteWithLayout
-        component={SettingsView}
-        exact
-        layout={MainLayout}
-        path="/settings"
       />
       <Redirect to="/not-found" />
     </Switch>

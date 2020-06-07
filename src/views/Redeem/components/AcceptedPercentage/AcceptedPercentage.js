@@ -38,10 +38,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TasksProgress = props => {
+const AcceptedPercentage = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
+
+  const redeems = props.redeems;
+  const percentage = redeems
+    ? (redeems.filter(
+      redeem => redeem.type === 'REDEEM' && redeem.status === 'APPROVED'
+    ).length *
+        100) /
+      redeems.length
+    : 0;
 
   return (
     <Card
@@ -60,9 +69,9 @@ const TasksProgress = props => {
               gutterBottom
               variant="body2"
             >
-              TASKS PROGRESS
+              APPROVED PERCENTAGE
             </Typography>
-            <Typography variant="h3">75.5%</Typography>
+            <Typography variant="h3">{`${percentage} %`}</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
@@ -80,8 +89,8 @@ const TasksProgress = props => {
   );
 };
 
-TasksProgress.propTypes = {
+AcceptedPercentage.propTypes = {
   className: PropTypes.string
 };
 
-export default TasksProgress;
+export default AcceptedPercentage;

@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 
 import {
-  Budget,
-  TotalUsers,
-  TasksProgress,
+  TotalRequested,
+  TotalApproved,
+  AcceptedPercentage,
   TotalProfit,
   LatestRedeems,
   RedeemAdd
@@ -51,7 +51,7 @@ const Redeem = () => {
           xl={3}
           xs={12}
         >
-          <Budget />
+          <TotalRequested redeems={queryInfo.data} />
         </Grid>
         <Grid
           item
@@ -60,7 +60,7 @@ const Redeem = () => {
           xl={3}
           xs={12}
         >
-          <TotalUsers />
+          <TotalApproved redeems={queryInfo.data} />
         </Grid>
         <Grid
           item
@@ -69,7 +69,7 @@ const Redeem = () => {
           xl={3}
           xs={12}
         >
-          <TasksProgress />
+          <AcceptedPercentage redeems={queryInfo.data} />
         </Grid>
         <Grid
           item
@@ -90,7 +90,7 @@ const Redeem = () => {
         >
           <LatestRedeems
             handleAddRedeemOpen={handleAddRedeemOpen}
-            redeems={queryInfo}
+            redeems={queryInfo.data}
           />
         </Grid>
       </Grid>

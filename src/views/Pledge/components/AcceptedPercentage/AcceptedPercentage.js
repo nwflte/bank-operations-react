@@ -42,11 +42,14 @@ const AcceptedPercentage = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-  const pledges = props.pledges || [];
-  const percentage =
-    pledges.filter(
+  const pledges = props.pledges;
+  const percentage = pledges
+    ? (pledges.filter(
       pledge => pledge.type === 'PLEDGE' && pledge.status === 'APPROVED'
-    ).length * 100 / pledges.length;
+    ).length *
+        100) /
+      pledges.length
+    : 0;
 
   return (
     <Card

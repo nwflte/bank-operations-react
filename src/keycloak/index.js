@@ -77,15 +77,17 @@ const updateToken = successCallback => {
     .catch(doLogin);
 };
 
-const getUserInfos = () => ({
-  roles: keycloak.tokenParsed.realm_access.roles,
-  fullName: keycloak.tokenParsed.name,
-  userName: keycloak.tokenParsed.preferred_username,
-  firstName: keycloak.tokenParsed.given_name,
-  lastName: keycloak.tokenParsed.family_name,
-  email: keycloak.tokenParsed.email
-});
-
+const getUserInfos = () => {
+  console.log('keycloak.tokenParsed', keycloak.tokenParsed);
+  return {
+    roles: keycloak.tokenParsed.realm_access.roles,
+    fullName: keycloak.tokenParsed.name,
+    userName: keycloak.tokenParsed.preferred_username,
+    firstName: keycloak.tokenParsed.given_name,
+    lastName: keycloak.tokenParsed.family_name,
+    email: keycloak.tokenParsed.email
+  };
+};
 export default {
   initKeycloak,
   doLogin,

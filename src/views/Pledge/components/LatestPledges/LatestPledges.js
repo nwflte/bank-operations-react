@@ -123,61 +123,62 @@ const LatestPledges = props => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {pledges.map(pledge => (
-                  <TableRow
-                    hover
-                    key={pledge.linearId}
-                  >
-                    <TableCell>{pledge.externalId}</TableCell>
-                    <TableCell>{pledge.amount}</TableCell>
-                    <TableCell>
-                      {moment(pledge.requesterDate).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      <div className={classes.statusContainer}>
-                        <StatusBullet
-                          className={classes.status}
-                          color={statusColors[pledge.status.toLowerCase()]}
-                          size="sm"
-                        />
-                        {pledge.status}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {pledge.status === 'REQUEST' && !isBankRole && (
-                        <div>
-                          <Button
-                            color="secondary"
-                            //href="/pledge/add"
-                            onClick={() => handleApprove(pledge)}
-                            size="small"
-                            variant="contained"
-                          >
-                            APPROVE
-                          </Button>
-                          <Button
-                            color="secondary"
-                            onClick={() => handleReject(pledge)}
-                            size="small"
-                            variant="contained"
-                          >
-                            REJECT
-                          </Button>
+                {pledges &&
+                  pledges.map(pledge => (
+                    <TableRow
+                      hover
+                      key={pledge.linearId}
+                    >
+                      <TableCell>{pledge.externalId}</TableCell>
+                      <TableCell>{pledge.amount}</TableCell>
+                      <TableCell>
+                        {moment(pledge.requesterDate).format('DD/MM/YYYY')}
+                      </TableCell>
+                      <TableCell>
+                        <div className={classes.statusContainer}>
+                          <StatusBullet
+                            className={classes.status}
+                            color={statusColors[pledge.status.toLowerCase()]}
+                            size="sm"
+                          />
+                          {pledge.status}
                         </div>
-                      )}
-                      {pledge.status === 'REQUEST' && isBankRole && (
-                        <Button
-                          color="secondary"
-                          onClick={() => handleCancel(pledge)}
-                          size="small"
-                          variant="contained"
-                        >
-                          CANCEL
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      <TableCell>
+                        {pledge.status === 'REQUEST' && !isBankRole && (
+                          <div>
+                            <Button
+                              color="secondary"
+                              //href="/pledge/add"
+                              onClick={() => handleApprove(pledge)}
+                              size="small"
+                              variant="contained"
+                            >
+                              APPROVE
+                            </Button>
+                            <Button
+                              color="secondary"
+                              onClick={() => handleReject(pledge)}
+                              size="small"
+                              variant="contained"
+                            >
+                              REJECT
+                            </Button>
+                          </div>
+                        )}
+                        {pledge.status === 'REQUEST' && isBankRole && (
+                          <Button
+                            color="secondary"
+                            onClick={() => handleCancel(pledge)}
+                            size="small"
+                            variant="contained"
+                          >
+                            CANCEL
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </div>

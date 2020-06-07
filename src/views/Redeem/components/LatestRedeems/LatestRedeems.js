@@ -22,7 +22,6 @@ import {
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
-import mockData from './data';
 import { StatusBullet } from 'components';
 import { useAuth } from 'authentication-context';
 
@@ -78,7 +77,7 @@ const LatestRedeems = props => {
 
   const isBankRole = userInfo.roles.includes('ROLE_BANK');
 
-  const redeems = props.redeems.data ? props.redeems.data : mockData;
+  const redeems = props.redeems;
 
   return (
     <Card
@@ -125,60 +124,61 @@ const LatestRedeems = props => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {redeems.map(redeem => (
-                  <TableRow
-                    hover
-                    key={redeem.linearId}
-                  >
-                    <TableCell>{redeem.externalId}</TableCell>
-                    <TableCell>{redeem.amount}</TableCell>
-                    <TableCell>
-                      {moment(redeem.requesterDate).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      <div className={classes.statusContainer}>
-                        <StatusBullet
-                          className={classes.status}
-                          color={statusColors[redeem.status.toLowerCase()]}
-                          size="sm"
-                        />
-                        {redeem.status}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {redeem.status === 'REQUEST' && !isBankRole && (
-                        <div>
-                          <Button
-                            color="secondary"
-                            onClick={() => handleApprove(redeem)}
-                            size="small"
-                            variant="contained"
-                          >
-                            APPROVE
-                          </Button>
-                          <Button
-                            color="secondary"
-                            onClick={() => handleReject(redeem)}
-                            size="small"
-                            variant="contained"
-                          >
-                            REJECT
-                          </Button>
+                {redeems &&
+                  redeems.map(redeem => (
+                    <TableRow
+                      hover
+                      key={redeem.linearId}
+                    >
+                      <TableCell>{redeem.externalId}</TableCell>
+                      <TableCell>{redeem.amount}</TableCell>
+                      <TableCell>
+                        {moment(redeem.requesterDate).format('DD/MM/YYYY')}
+                      </TableCell>
+                      <TableCell>
+                        <div className={classes.statusContainer}>
+                          <StatusBullet
+                            className={classes.status}
+                            color={statusColors[redeem.status.toLowerCase()]}
+                            size="sm"
+                          />
+                          {redeem.status}
                         </div>
-                      )}
-                      {redeem.status === 'REQUEST' && isBankRole && (
-                        <Button
-                          color="secondary"
-                          onClick={() => handleCancel(redeem)}
-                          size="small"
-                          variant="contained"
-                        >
-                          CANCEL
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      <TableCell>
+                        {redeem.status === 'REQUEST' && !isBankRole && (
+                          <div>
+                            <Button
+                              color="secondary"
+                              onClick={() => handleApprove(redeem)}
+                              size="small"
+                              variant="contained"
+                            >
+                              APPROVE
+                            </Button>
+                            <Button
+                              color="secondary"
+                              onClick={() => handleReject(redeem)}
+                              size="small"
+                              variant="contained"
+                            >
+                              REJECT
+                            </Button>
+                          </div>
+                        )}
+                        {redeem.status === 'REQUEST' && isBankRole && (
+                          <Button
+                            color="secondary"
+                            onClick={() => handleCancel(redeem)}
+                            size="small"
+                            variant="contained"
+                          >
+                            CANCEL
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </div>

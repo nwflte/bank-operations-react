@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
@@ -8,18 +8,26 @@ import {
   CardContent,
   CardActions,
   Grid,
-  Divider,
   FormControlLabel,
   Checkbox,
   Typography,
-  Button
+  Button,
+  Divider,
+  colors
 } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   item: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  saveButton: {
+    color: theme.palette.white,
+    backgroundColor: colors.green[600],
+    '&:hover': {
+      backgroundColor: colors.green[900]
+    }
   }
 }));
 
@@ -33,13 +41,10 @@ const Notifications = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <form>
-        <CardHeader
-          subheader="Manage the notifications"
-          title="Notifications"
-        />
-        <Divider />
-        <CardContent>
+      <CardHeader title="Notifications" />
+      <Divider />
+      <CardContent>
+        <form>
           <Grid
             container
             spacing={6}
@@ -56,7 +61,13 @@ const Notifications = props => {
                 gutterBottom
                 variant="h6"
               >
-                Notifications
+                System
+              </Typography>
+              <Typography
+                gutterBottom
+                variant="body2"
+              >
+                You will recieve emails in your business email address
               </Typography>
               <FormControlLabel
                 control={
@@ -65,20 +76,11 @@ const Notifications = props => {
                     defaultChecked //
                   />
                 }
-                label="Email"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    defaultChecked //
-                  />
-                }
-                label="Push Notifications"
+                label="Email alerts"
               />
               <FormControlLabel
                 control={<Checkbox color="primary" />}
-                label="Text Messages"
+                label="Push Notifications"
               />
               <FormControlLabel
                 control={
@@ -87,7 +89,23 @@ const Notifications = props => {
                     defaultChecked //
                   />
                 }
-                label="Phone calls"
+                label="Text message"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    color="primary"
+                    defaultChecked //
+                  />
+                }
+                label={
+                  <Fragment>
+                    <Typography variant="body1">Phone calls</Typography>
+                    <Typography variant="caption">
+                      Short voice phone updating you
+                    </Typography>
+                  </Fragment>
+                }
               />
             </Grid>
             <Grid
@@ -101,7 +119,13 @@ const Notifications = props => {
                 gutterBottom
                 variant="h6"
               >
-                Messages
+                Chat App
+              </Typography>
+              <Typography
+                gutterBottom
+                variant="body2"
+              >
+                You will recieve emails in your business email address
               </Typography>
               <FormControlLabel
                 control={
@@ -113,31 +137,27 @@ const Notifications = props => {
                 label="Email"
               />
               <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="Push Notifications"
-              />
-              <FormControlLabel
                 control={
                   <Checkbox
                     color="primary"
                     defaultChecked //
                   />
                 }
-                label="Phone calls"
+                label="Push notifications"
               />
             </Grid>
           </Grid>
-        </CardContent>
-        <Divider />
-        <CardActions>
-          <Button
-            color="primary"
-            variant="outlined"
-          >
-            Save
-          </Button>
-        </CardActions>
-      </form>
+        </form>
+      </CardContent>
+      <Divider />
+      <CardActions>
+        <Button
+          className={classes.saveButton}
+          variant="contained"
+        >
+          Save changes
+        </Button>
+      </CardActions>
     </Card>
   );
 };

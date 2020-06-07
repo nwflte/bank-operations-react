@@ -43,16 +43,8 @@ export default [
             href: '/management/clients/1/summary'
           },
           {
-            title: 'Comptes',
-            href: '/management/accounts'
-          },
-          {
             title: 'Virements',
             href: '/management/transactions'
-          },
-          {
-            title: 'Add Virement',
-            href: '/management/transactions/add'
           }
         ]
       },
