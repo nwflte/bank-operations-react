@@ -18,7 +18,7 @@ import {
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -92,37 +92,15 @@ const VirementAdd = props => {
   };
 
   return (
-    <Modal
-      onClose={onClose}
-      open={open}
-    >
-      <Card
-        {...rest}
-        className={clsx(classes.root, className)}
-      >
-        <form
-          autoComplete="on"
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
-        >
+    <Modal onClose={onClose} open={open}>
+      <Card {...rest} className={clsx(classes.root, className)}>
+        <form autoComplete="on" noValidate onSubmit={handleSubmit(onSubmit)}>
           <CardContent>
-            <Typography
-              align="center"
-              gutterBottom
-              variant="h3"
-            >
+            <Typography align="center" gutterBottom variant="h3">
               Nouveau Virement
             </Typography>
-            <Grid
-              className={classes.container}
-              container
-              spacing={3}
-            >
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+            <Grid className={classes.container} container spacing={3}>
+              <Grid item md={6} xs={12}>
                 <Controller
                   as={TextField}
                   control={control}
@@ -135,11 +113,7 @@ const VirementAdd = props => {
                 />
               </Grid>
 
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+              <Grid item md={6} xs={12}>
                 <Controller
                   as={
                     <Autocomplete
@@ -169,11 +143,7 @@ const VirementAdd = props => {
                   onInputChange={(e, data) => data}
                 />
               </Grid>
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+              <Grid item md={6} xs={12}>
                 <Controller
                   as={TextField}
                   control={control}
@@ -184,11 +154,7 @@ const VirementAdd = props => {
                   variant="outlined"
                 />
               </Grid>
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+              <Grid item md={6} xs={12}>
                 <Controller
                   as={TextField}
                   control={control}
@@ -199,11 +165,7 @@ const VirementAdd = props => {
                   variant="outlined"
                 />
               </Grid>
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+              <Grid item md={6} xs={12}>
                 <Controller
                   as={TextField}
                   control={control}
@@ -215,11 +177,7 @@ const VirementAdd = props => {
                   variant="outlined"
                 />
               </Grid>
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+              <Grid item md={6} xs={12}>
                 <Controller
                   as={TextField}
                   control={control}
@@ -230,11 +188,7 @@ const VirementAdd = props => {
                   variant="outlined"
                 />
               </Grid>
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+              <Grid item md={6} xs={12}>
                 <Controller
                   as={TextField}
                   control={control}
@@ -245,11 +199,7 @@ const VirementAdd = props => {
                 />
               </Grid>
               <Grid item />
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+              <Grid item md={6} xs={12}>
                 <Typography variant="h5">Priorité</Typography>
                 <Typography variant="body2">
                   Activé pour donner ce virement la priorité sur le Blockchain
@@ -266,17 +216,13 @@ const VirementAdd = props => {
             </Grid>
           </CardContent>
           <CardActions className={classes.actions}>
-            <Button
-              onClick={onClose}
-              variant="contained"
-            >
+            <Button onClick={onClose} variant="contained">
               Close
             </Button>
             <Button
               className={classes.saveButton}
               type="submit"
-              variant="contained"
-            >
+              variant="contained">
               Save
             </Button>
           </CardActions>

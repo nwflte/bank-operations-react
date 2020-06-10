@@ -19,6 +19,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import useRouter from 'utils/useRouter';
 
+import { useMutation, queryCache } from 'react-query';
+
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'absolute',
@@ -58,22 +60,55 @@ const PledgeAdd = props => {
     register({ name: 'ribBeneficiaire' });
   });
 
-  if (!open) {
-    return null;
-  }
+  const [mutate] = useMutation(
+    data =>
+      axios.post('api/obligations/pledges', {
+        ...data
+      }),
+    {
+      onSuccess: () => {
+        queryCache.refetchQueries('pledge');
+        onClose();
+        toast.success('You have successfully added a new pledge request!');
+      },
+      onError: err => {
+        if (err.response) {
+          // client received an error response (5xx, 4xx)
+          toast.error(
+            "Error: Pledge request wasn't added successfully. Code: " +
+              err.response.status
+          );
+        } else if (err.request) {
+          // client never received a response, or request never left
+          toast.error('Error: No response. Please try again.');
+        } else {
+          // anything else
+          toast.error('Unknown Error occurred, see the logs');
+        }
+      }
+    }
+  );
 
   const onSubmit = async data => {
+    try {
+      await mutate(data);
+    } catch (err) {
+      // Uh oh, something went wrong
+      toast.error('Unknown Error occurred, see the logs');
+    }
+  };
+  /*   const onSubmit = async data => {
     try {
       const request = await axios.post('api/obligations/pledges', {
         ...data
       });
       toast.success('You have successfully added a new pledge request!');
-      history.push('pledges');
+      onClose();
     } catch (err) {
       if (err.response) {
         // client received an error response (5xx, 4xx)
         toast.error(
-          'Error: Pledge request wasn\'t added successfully. Code: ' +
+          "Error: Pledge request wasn't added successfully. Code: " +
             err.response.status
         );
       } else if (err.request) {
@@ -84,7 +119,11 @@ const PledgeAdd = props => {
         toast.error('Unknown Error occurred, see the logs');
       }
     }
-  };
+  }; */
+
+  if (!open) {
+    return null;
+  }
 
   const currencies = [
     {
@@ -94,37 +133,15 @@ const PledgeAdd = props => {
   ];
 
   return (
-    <Modal
-      onClose={onClose}
-      open={open}
-    >
-      <Card
-        {...rest}
-        className={clsx(classes.root, className)}
-      >
-        <form
-          autoComplete="on"
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
-        >
+    <Modal onClose={onClose} open={open}>
+      <Card {...rest} className={clsx(classes.root, className)}>
+        <form autoComplete="on" noValidate onSubmit={handleSubmit(onSubmit)}>
           <CardContent>
-            <Typography
-              align="center"
-              gutterBottom
-              variant="h3"
-            >
+            <Typography align="center" gutterBottom variant="h3">
               Nouveau Pledge
             </Typography>
-            <Grid
-              className={classes.container}
-              container
-              spacing={3}
-            >
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+            <Grid className={classes.container} container spacing={3}>
+              <Grid item md={6} xs={12}>
                 <Controller
                   as={TextField}
                   control={control}
@@ -136,11 +153,7 @@ const PledgeAdd = props => {
                   variant="outlined"
                 />
               </Grid>
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+              <Grid item md={6} xs={12}>
                 <Controller
                   as={TextField}
                   control={control}
@@ -153,10 +166,7 @@ const PledgeAdd = props => {
                   SelectProps={{ native: true }}
                   variant="outlined">
                   {currencies.map(option => (
-                    <option
-                      key={option.value}
-                      value={option.value}
-                    >
+                    <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
                   ))}
@@ -164,11 +174,7 @@ const PledgeAdd = props => {
               </Grid>
 
               <Grid item />
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
+              <Grid item md={6} xs={12}>
                 <Typography variant="h5">Priorité</Typography>
                 <Typography variant="body2">
                   Activé pour donner ce pledge la priorité
@@ -185,17 +191,13 @@ const PledgeAdd = props => {
             </Grid>
           </CardContent>
           <CardActions className={classes.actions}>
-            <Button
-              onClick={onClose}
-              variant="contained"
-            >
+            <Button onClick={onClose} variant="contained">
               Close
             </Button>
             <Button
               className={classes.saveButton}
               type="submit"
-              variant="contained"
-            >
+              variant="contained">
               Save
             </Button>
           </CardActions>

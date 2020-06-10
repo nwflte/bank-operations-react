@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const getRedeems = async () => {
-  const { data } = await axios.get('api/obligations/redeems');
+  const { data } = await axios.get('api/obligations/redeems?status=unconsumed');
   return data;
 };
 

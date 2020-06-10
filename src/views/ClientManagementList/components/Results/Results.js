@@ -133,10 +133,9 @@ const Results = props => {
                     </TableCell>
                     <TableCell>Nom</TableCell>
                     <TableCell>Location</TableCell>
-                    <TableCell>Adresse</TableCell>
-                    <TableCell>Genre</TableCell>
-                    <TableCell>Date de naissance</TableCell>
-                    <TableCell>Reviews</TableCell>
+                    <TableCell>Address</TableCell>
+                    <TableCell>Gender</TableCell>
+                    <TableCell>BirthDay</TableCell>
                     <TableCell align="right">Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -180,7 +179,6 @@ const Results = props => {
                       <TableCell>{client.adresse1} </TableCell>
                       <TableCell>{client.gender}</TableCell>
                       <TableCell>{client.birthdate}</TableCell>
-                      <TableCell />
                       <TableCell align="right">
                         <Button
                           color="primary"

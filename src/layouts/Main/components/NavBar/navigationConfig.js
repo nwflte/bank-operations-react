@@ -20,8 +20,8 @@ export default [
         icon: DashboardIcon,
         children: [
           {
-            title: 'Default',
-            href: '/dashboard'
+            title: 'Node',
+            href: '/dashboard/node'
           },
           {
             title: 'Analytics',
@@ -103,6 +103,25 @@ export default [
           {
             title: 'General',
             href: '/redeems/general'
+          }
+        ]
+      },
+      {
+        title: 'DDR',
+        href: '/ddr',
+        icon: ListAltIcon,
+        label: () => (
+          <Label
+            color={colors.red[500]}
+            shape="rounded"
+          >
+            2
+          </Label>
+        ),
+        children: [
+          {
+            title: 'Dashboard',
+            href: '/ddr/dashboard'
           }
         ]
       }

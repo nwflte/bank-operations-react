@@ -43,34 +43,29 @@ const AcceptedPercentage = props => {
 
   const classes = useStyles();
   const pledges = props.pledges;
-  const percentage = pledges
-    ? (pledges.filter(
-      pledge => pledge.type === 'PLEDGE' && pledge.status === 'APPROVED'
-    ).length *
+  const percentage =
+    (pledges &&
+      (pledges.filter(
+        pledge => pledge.type === 'PLEDGE' && pledge.status === 'APPROVED'
+      ).length *
         100) /
-      pledges.length
-    : 0;
+        pledges.length) ||
+    0;
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent>
-        <Grid
-          container
-          justify="space-between"
-        >
+        <Grid container justify="space-between">
           <Grid item>
             <Typography
               className={classes.title}
               color="textSecondary"
               gutterBottom
-              variant="body2"
-            >
+              variant="body2">
               APPROVED PERCENTAGE
             </Typography>
-            <Typography variant="h3">{`${percentage} %`}</Typography>
+            <Typography variant="h3">{`${percentage &&
+              percentage.toFixed(2)} %`}</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

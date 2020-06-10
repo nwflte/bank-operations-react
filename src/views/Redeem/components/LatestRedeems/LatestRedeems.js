@@ -131,7 +131,7 @@ const LatestRedeems = props => {
                       key={redeem.linearId}
                     >
                       <TableCell>{redeem.externalId}</TableCell>
-                      <TableCell>{redeem.amount}</TableCell>
+                      <TableCell>{redeem.amount / 100} DH</TableCell>
                       <TableCell>
                         {moment(redeem.requesterDate).format('DD/MM/YYYY')}
                       </TableCell>

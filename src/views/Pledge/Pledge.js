@@ -7,7 +7,7 @@ import {
   TotalRequested,
   TotalApproved,
   AcceptedPercentage,
-  TotalProfit,
+  TotalBalance,
   LatestPledges,
   PledgeAdd
 } from './components';
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const getPledges = async () => {
-  const { data } = await axios.get('api/obligations/pledges');
+  const { data } = await axios.get('api/obligations/pledges?status=unconsumed');
   return data;
 };
 
@@ -78,7 +78,7 @@ const Pledge = () => {
           xl={3}
           xs={12}
         >
-          <TotalProfit />
+          <TotalBalance />
         </Grid>
 
         <Grid

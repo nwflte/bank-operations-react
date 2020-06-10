@@ -4,6 +4,7 @@ export { default as Pledge } from './Pledge';
 export { PledgeAdd } from './Pledge';
 export { default as Redeem } from './Redeem';
 export { default as Client } from './ClientManagementList';
+export { default as NodeInfo } from './NodeInfo';
 export { default as NotFound } from './NotFound';
 export { default as Settings } from './Settings';
 export { default as SignIn } from './SignIn';

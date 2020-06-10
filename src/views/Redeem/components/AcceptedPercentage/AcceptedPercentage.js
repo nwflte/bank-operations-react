@@ -44,34 +44,29 @@ const AcceptedPercentage = props => {
   const classes = useStyles();
 
   const redeems = props.redeems;
-  const percentage = redeems
-    ? (redeems.filter(
-      redeem => redeem.type === 'REDEEM' && redeem.status === 'APPROVED'
-    ).length *
+  const percentage =
+    (redeems &&
+      (redeems.filter(
+        redeem => redeem.type === 'REDEEM' && redeem.status === 'APPROVED'
+      ).length *
         100) /
-      redeems.length
-    : 0;
+        redeems.length) ||
+    0;
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent>
-        <Grid
-          container
-          justify="space-between"
-        >
+        <Grid container justify="space-between">
           <Grid item>
             <Typography
               className={classes.title}
               color="textSecondary"
               gutterBottom
-              variant="body2"
-            >
+              variant="body2">
               APPROVED PERCENTAGE
             </Typography>
-            <Typography variant="h3">{`${percentage} %`}</Typography>
+            <Typography variant="h3">{`${percentage &&
+              percentage.toFixed(2)} %`}</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

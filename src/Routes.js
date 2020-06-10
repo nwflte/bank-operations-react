@@ -8,6 +8,11 @@ import { NotFound as NotFoundView } from './views';
 
 const bankRoutes = [
   {
+    path: '/dashboard/node',
+    exact: true,
+    component: lazy(() => import('views/NodeInfo'))
+  },
+  {
     path: '/management/transactions',
     exact: true,
     component: lazy(() => import('views/Transaction'))
@@ -33,6 +38,10 @@ const bankRoutes = [
   {
     path: '/redeems/general',
     component: lazy(() => import('views/Redeem'))
+  },
+  {
+    path: '/ddr/dashboard',
+    component: lazy(() => import('views/DDR'))
   },
   {
     path: '/settings/:tab',

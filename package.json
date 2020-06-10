@@ -4,6 +4,8 @@
   "private": false,
   "scripts": {
     "start": "react-scripts start",
+    "starta": "set PORT=3001 && react-scripts start",
+    "startb": "set PORT=3002 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -44,10 +46,13 @@
     "react-hook-form": "^5.5.1",
     "react-perfect-scrollbar": "^1.5.3",
     "react-query": "^1.2.7",
+    "react-query-devtools": "^1.1.17",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.0.1",
+    "react-stomp": "^5.0.0",
     "react-toastify": "^6.0.0",
     "recompose": "^0.30.0",
+    "sockjs-client": "^1.4.0",
     "underscore": "^1.9.1",
     "uuid": "^3.3.2",
     "validate.js": "^0.13.1"

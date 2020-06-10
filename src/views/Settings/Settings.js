@@ -5,13 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Tabs, Tab, Divider, colors } from '@material-ui/core';
 
 import { Page } from 'components';
-import {
-  Header,
-  General,
-  Subscription,
-  Notifications,
-  Security
-} from './components';
+import { Header, General, Security } from './components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,8 +37,6 @@ const Settings = props => {
 
   const tabs = [
     { value: 'general', label: 'General' },
-    { value: 'subscription', label: 'Subscription' },
-    { value: 'notifications', label: 'Notifications' },
     { value: 'security', label: 'Security' }
   ];
 
@@ -80,8 +72,6 @@ const Settings = props => {
       <Divider className={classes.divider} />
       <div className={classes.content}>
         {tab === 'general' && <General />}
-        {tab === 'subscription' && <Subscription />}
-        {tab === 'notifications' && <Notifications />}
         {tab === 'security' && <Security />}
       </div>
     </Page>

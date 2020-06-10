@@ -53,16 +53,14 @@ const TransactionsTable = props => {
   };
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent className={classes.content}>
         <PerfectScrollbar>
           <div className={classes.inner}>
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>ID</TableCell>
                   <TableCell>Emetteur</TableCell>
                   <TableCell>Beneficiaire</TableCell>
                   <TableCell>Montant</TableCell>
@@ -73,12 +71,13 @@ const TransactionsTable = props => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {virements.slice(0, rowsPerPage).map(virement => (
+                {/* {virements.slice(0, rowsPerPage).map(virement => ( */}
+                {virements.map(virement => (
                   <TableRow
                     className={classes.tableRow}
                     hover
-                    key={virement.amount}
-                  >
+                    key={virement.amount}>
+                    <TableCell>#{virement.id}</TableCell>
                     <TableCell>{virement.ribEmetteur}</TableCell>
                     <TableCell>{virement.ribBeneficiaire}</TableCell>
                     <TableCell>{virement.amount}</TableCell>

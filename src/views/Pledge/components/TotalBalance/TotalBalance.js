@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import axios from 'utils/axios';
+
+import { useQuery } from 'react-query';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,35 +33,32 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TotalProfit = props => {
+const getBalance = async () => {
+  const { data } = await axios.get('api/ddrs/balance');
+  return data;
+};
+
+const TotalBalance = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
 
+  const queryInfo = useQuery('balance', getBalance);
+
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent>
-        <Grid
-          container
-          justify="space-between"
-        >
+        <Grid container justify="space-between">
           <Grid item>
             <Typography
               className={classes.title}
               color="inherit"
               gutterBottom
-              variant="body2"
-            >
+              variant="body2">
               TOTAL BALANCE
             </Typography>
-            <Typography
-              color="inherit"
-              variant="h3"
-            >
-              $23,200
+            <Typography color="inherit" variant="h3">
+              {queryInfo.data / 100 || 0} DH
             </Typography>
           </Grid>
           <Grid item>
@@ -72,8 +72,8 @@ const TotalProfit = props => {
   );
 };
 
-TotalProfit.propTypes = {
+TotalBalance.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalProfit;
+export default TotalBalance;

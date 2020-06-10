@@ -69,7 +69,7 @@ const TotalApproved = props => {
             >
               TOTAL APPROVED
             </Typography>
-            <Typography variant="h3">{`${totalAmount} DH`}</Typography>
+            <Typography variant="h3">{`${totalAmount / 100} DH`}</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

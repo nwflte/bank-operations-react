@@ -130,7 +130,7 @@ const LatestPledges = props => {
                       key={pledge.linearId}
                     >
                       <TableCell>{pledge.externalId}</TableCell>
-                      <TableCell>{pledge.amount}</TableCell>
+                      <TableCell>{pledge.amount / 100} DH</TableCell>
                       <TableCell>
                         {moment(pledge.requesterDate).format('DD/MM/YYYY')}
                       </TableCell>
