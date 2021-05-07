@@ -53,7 +53,7 @@
     "react-toastify": "^6.0.0",
     "recompose": "^0.30.0",
     "sockjs-client": "^1.4.0",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "uuid": "^3.3.2",
     "validate.js": "^0.13.1"
   },
