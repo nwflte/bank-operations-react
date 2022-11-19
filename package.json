@@ -48,7 +48,7 @@
     "react-query": "^1.2.7",
     "react-query-devtools": "^1.1.17",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^5.0.1",
     "react-stomp": "^5.0.0",
     "react-toastify": "^6.0.0",
     "recompose": "^0.30.0",
